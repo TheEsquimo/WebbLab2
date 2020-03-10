@@ -2,23 +2,17 @@ let key = '1i1aQ';  // once you have a key, it is ok to store it in a variable
 const baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
 //const viewRequest = baseUrl + '&op=select';
 //fetch(url).then(???).catch(???)
+const addBookNameField = document.getElementById('add-book-name');
+const addBookAuthorField = document.getElementById('add-book-author-name');
+const addBookButton = document.getElementById('add-book-submit');
+addBookButton.addEventListener('click', addBook);
 
-function addBook() {
-    const bookName = document.getElementById(bookNameID).value;
-    const bookAuthor = document.getElementById(authorNameID).value;
-    const insertRequest = baseUrl + `&op=insert&${bookName}&${bookAuthor}`;
-    const xhr = new XMLHttpRequest();
-    const url = insertRequest;
-    const data = JSON.stringify({id: bookName, author: bookAuthor});
-    xhr.responseType = 'json';
-    xhronreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            console.log('Book added');
-        }
-    }
-    xhr.open('POST', url);
-    xhr.send(data);
+async function addBook() {
+    let operation = '&op=insert';
+    let bookAuthor = '&author=' + addBookAuthorField.value;
+    const bookName = '&title=' + addBookNameField.value;
+    const endpoint = baseUrl + operation + bookName + bookAuthor;
+    let response = await fetch(endpoint);
+    let responseText = await response.text;
+    console.log(responseText);
 }
-
-const addBookButton = document.getElementById('add-book-button');
-addBookButton.onclick = addBook();

@@ -3,34 +3,34 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="./style.css" type="text/css">
-        <script src="./script.js"></script>
         <title>Extreme Store of the Books</title>
     </head>
     <body>
         <form>
             <h3>Add Book</h3>
             <label for="add-book-name">Book name</label><br>
-            <input type="text" id="add-book-name" name="book-name"><br>
+            <input type="text" id="add-book-name" name="book-name" required><br>
             <label for="add-book-author-name">Author name</label><br>
-            <input type="text" id="add-book-author-name" name="book-author-name"><br>
-            <button type="button" onclick="addBook" id="add-book-submit">Submit</button>
+            <input type="text" id="add-book-author-name" name="book-author-name" required><br>
+            <button type="submit" id="add-book-submit">Add book</button>
         </form>
         <form>
             <h3>Modify Book</h3>
             <label for="modify-book-id">Book ID</label><br>
-            <input type="text" id="modify-book-id" name="book-id"><br>
+            <input type="text" id="modify-book-id" name="book-id" required><br>
             <label for="modify-book-name">New book name</label><br>
             <input type="text" id="modify-book-name" name="book-name"><br>
             <label for="modify-book-author-name">New author name</label><br>
             <input type="text" id="modify-book-author-name" name="book-author-name"><br>
-            <button type="button">Submit</button>
+            <input type="submit">
         </form>
         <form>
             <h3>Remove book</h3>
             <label for="remove-book-id">Book ID</label><br>
-            <input type="text" id="remove-book-id" name="book-id"><br>
+            <input type="text" id="remove-book-id" name="book-id" required><br>
             <button type="button">Submit</button>
         </form>
         <button type="button">New API-key</button>
+        <script src="./script.js"></script>
     </body>
 </html>
