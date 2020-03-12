@@ -1,22 +1,32 @@
 let keyAPI = 'VTVQk';
 let baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
+const standardTryTimes = 9;
+let addBookTitleField;
+let addBookAuthorField;
+let modifyBookIdField;
+let modifyBookTitleField;
+let modifyBookAuthorField;
+let removeBookIdField;
 
 window.addEventListener('load', () => {
-    addBookNameField = document.getElementById('add-book-name');
+    addBookTitleField = document.getElementById('add-book-title');
     addBookAuthorField = document.getElementById('add-book-author-name');
     removeBookIdField = document.getElementById('remove-book-id');
+    modifyBookIdField = document.getElementById('modify-book-id');
+    modifyBookTitleField = document.getElementById('modify-book-title')
+    modifyBookAuthorField = document.getElementById('modify-book-author-name')
     bookList = document.getElementById('book-list');
 });
 
-function submitBookToAPI(tryTimes) {
+function submitBookToAPI(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to submit book to API...');
         return;
     }
     const operation = '&op=insert';
-    const bookName = '&title=' + addBookNameField.value;
+    const bookTitle = '&title=' + addBookTitleField.value;
     const bookAuthor = '&author=' + addBookAuthorField.value;
-    const endpoint = baseUrl + operation + bookName + bookAuthor;
+    const endpoint = baseUrl + operation + bookTitle + bookAuthor;
     fetch(endpoint)
     .then(response => response.json())
     .then(json => {
@@ -30,7 +40,7 @@ function submitBookToAPI(tryTimes) {
     });
 }
 
-function getBooksFromAPI(tryTimes) {
+function getBooksFromAPI(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to get books from API...');
         return;
@@ -65,11 +75,11 @@ function getBooksFromAPI(tryTimes) {
 }
 
 function clearAddBookForm() {
-    addBookNameField.value = '';
+    addBookTitleField.value = '';
     addBookAuthorField.value = '';
 }
 
-function getNewAPIKey(tryTimes) {
+function getNewAPIKey(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to get new API key...');
         return;
@@ -81,7 +91,7 @@ function getNewAPIKey(tryTimes) {
         if (json.status === 'success') {
             keyAPI = json.key;
             baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
-            console.log(`New API key succesfully saved after ${11 - tryTimes} attempts!`)
+            console.log(`New API key succesfully saved after ${standardTryTimes - tryTimes} attempts!`)
         }
         else {
             getNewAPIKey(tryTimes - 1);
@@ -89,15 +99,48 @@ function getNewAPIKey(tryTimes) {
     })
     .catch((error) => {
         console.log(error.message);
-    })
+    });
 }
 
-function onRemoveBookButtonPressed() {
+function onModifyBookButtonClicked() {
+    //if ()
+    const id = modifyBookIdField.value;
+    const title = modifyBookTitleField.value;
+    const author = modifyBookAuthorField.value;
+    modifyBookFromAPI(id, title, author);
+}
+
+function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
+    if (tryTimes <= 0) {
+        console.log('Could not modify book through API...');
+        return;
+    }
+    const operation = '&op=update';
+    let theId = '&id=' + id;
+    let newTitle = '&title=' + title;
+    let newAuthor = '&author=' + author;
+    const endpoint = baseUrl + operation + theId + newTitle + newAuthor;
+    fetch(endpoint)
+    .then((response) => {return response.json()})
+    .then((json) => {
+        if (json.status === 'success') {
+            console.log(`Succesfully modified book after ${standardTryTimes - tryTimes}`);
+            modifyBookIdField.value = '';
+            modifyBookTitleField.value = '';
+            modifyBookAuthorField.value  = '';
+        }
+        else {
+            modifyBookFromAPI(id, title, author, tryTimes - 1);
+        }
+    });
+}
+
+function onRemoveBookButtonClicked() {
     const id = removeBookIdField.value;
-    removeBookFromAPI(id, 10);
+    removeBookFromAPI(id);
 }
 
-function removeBookFromAPI(id, tryTimes) {
+function removeBookFromAPI(id, tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to remove book from API...');
         return;
@@ -106,13 +149,15 @@ function removeBookFromAPI(id, tryTimes) {
     const theId = '&id=' + id;
     const endpoint = baseUrl + operation + theId;
     fetch(endpoint)
-    .then((response) => {return response.json})
+    .then((response) => {return response.json()})
     .then((json) => {
         if (json.status === 'success') {
             console.log('Successfully removed book!');
+            removeBookIdField.value = '';
+            getBooksFromAPI();
         }
         else {
             removeBookFromAPI(id, tryTimes - 1);
         }
-    })
+    });
 }
