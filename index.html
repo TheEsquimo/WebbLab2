@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="./style.css" type="text/css">
+        <script src="./script.js"></script>
         <title>Extreme Store of the Books</title>
     </head>
     <body>
@@ -12,7 +13,7 @@
             <input type="text" id="add-book-name" name="book-name" required><br>
             <label for="add-book-author-name">Author name</label><br>
             <input type="text" id="add-book-author-name" name="book-author-name" required><br>
-            <button type="button" id="add-book-submit">Add book</button>
+            <button type="button" onclick='submitBookToAPI(10)'>Add book</button>
         </form>
         <form>
             <h3>Modify Book</h3>
@@ -22,18 +23,18 @@
             <input type="text" id="modify-book-name" name="book-name"><br>
             <label for="modify-book-author-name">New author name</label><br>
             <input type="text" id="modify-book-author-name" name="book-author-name"><br>
-            <input type="submit">
+            <button type="button">Modify book</button>
         </form>
         <form>
             <h3>Remove book</h3>
             <label for="remove-book-id">Book ID</label><br>
             <input type="text" id="remove-book-id" name="book-id" required><br>
-            <button type="button">Submit</button>
+            <button type="button" onclick='onRemoveBookButtonPressed()'>Remove book</button>
         </form>
+        <button type="button" onclick="getBooksFromAPI(10)">Display books</button>
         <ul id='book-list'>
 
         </ul>
-        <button type="button">New API-key</button>
-        <script src="./script.js"></script>
+        <button type="button" onclick="getNewAPIKey(10)">New API-key</button>
     </body>
 </html>

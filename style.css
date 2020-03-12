@@ -1,0 +1,10 @@
+body 
+{
+    background-color: black;
+    color: gray;
+}
+
+form input
+{
+    background-color: rgb(196, 212, 221);
+}
