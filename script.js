@@ -1,6 +1,6 @@
 let keyAPI = 'VTVQk';
 let baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
-const standardTryTimes = 9;
+const standardTryTimes = 10;
 let addBookTitleField;
 let addBookAuthorField;
 let modifyBookIdField;
@@ -10,6 +10,7 @@ let removeBookIdField;
 let addBookForm;
 let modifyBookForm;
 let removeBookForm;
+let operationStatusParagraph;
 
 window.addEventListener('load', () => {
     addBookForm = document.getElementById('add-book-form');
@@ -22,6 +23,7 @@ window.addEventListener('load', () => {
     modifyBookTitleField = document.getElementById('modify-book-title')
     modifyBookAuthorField = document.getElementById('modify-book-author-name')
     bookList = document.getElementById('book-list');
+    operationStatusParagraph = document.getElementById('operation-status');
 });
 
 function submitBookToAPI(tryTimes = standardTryTimes) {
@@ -37,11 +39,11 @@ function submitBookToAPI(tryTimes = standardTryTimes) {
     .then(response => response.json())
     .then(json => {
         if (json.status === 'success') {
-            console.log(`Sucessfully added book after ${11 - tryTimes} retries!`);
+            console.log(`Sucessfully added book after ${standardTryTimes - tryTimes} retries!`);
             clearAddBookForm();
             return true;
         } else {
-        return submitBookToAPI(tryTimes--);
+        return submitBookToAPI(tryTimes - 1);
         }
     });
 }
@@ -75,7 +77,7 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
             }
             console.log(`Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
         } else {
-        return getBooksFromAPI(tryTimes--);
+        return getBooksFromAPI(tryTimes - 1);
         }
     });
 }
@@ -136,7 +138,7 @@ function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
             modifyBookAuthorField.value  = '';
         }
         else {
-            modifyBookFromAPI(id, title, author, tryTimes--);
+            modifyBookFromAPI(id, title, author, tryTimes - 1);
         }
     });
 }
@@ -163,7 +165,7 @@ function removeBookFromAPI(id, tryTimes = standardTryTimes) {
             getBooksFromAPI();
         }
         else {
-            return removeBookFromAPI(id, tryTimes--);
+            return removeBookFromAPI(id, tryTimes - 1);
         }
     });
 }
