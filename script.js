@@ -7,8 +7,14 @@ let modifyBookIdField;
 let modifyBookTitleField;
 let modifyBookAuthorField;
 let removeBookIdField;
+let addBookForm;
+let modifyBookForm;
+let removeBookForm;
 
 window.addEventListener('load', () => {
+    addBookForm = document.getElementById('add-book-form');
+    modifyBookForm = document.getElementById('modify-book-form');
+    removeBookForm = document.getElementById('remove-book-form');
     addBookTitleField = document.getElementById('add-book-title');
     addBookAuthorField = document.getElementById('add-book-author-name');
     removeBookIdField = document.getElementById('remove-book-id');
@@ -31,11 +37,11 @@ function submitBookToAPI(tryTimes = standardTryTimes) {
     .then(response => response.json())
     .then(json => {
         if (json.status === 'success') {
-            console.log(`Sucessfully added book after ${11 - tryTimes} attempts!`);
+            console.log(`Sucessfully added book after ${11 - tryTimes} retries!`);
             clearAddBookForm();
             return true;
         } else {
-        return submitBookToAPI(tryTimes - 1);
+        return submitBookToAPI(tryTimes--);
         }
     });
 }
@@ -50,7 +56,7 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
     const endpoint = baseUrl + operation;
     fetch(endpoint)
     .then(response => response.json())
-    .then(json => {
+    .then((json) => {
         if (json.status === 'success') {
             //Make fetched books into a JavaScript array of anonymous objects
             let bookArray = [];
@@ -67,9 +73,9 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
                 newBook.innerHTML = `Title: ${title} Author: ${author} ID: ${id}`;     
                 bookList.appendChild(newBook);
             }
-            console.log(`Succesfully fetched books & updated book list after ${11 - tryTimes} tries`);
+            console.log(`Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
         } else {
-        return getBooksFromAPI(tryTimes - 1);
+        return getBooksFromAPI(tryTimes--);
         }
     });
 }
@@ -91,7 +97,7 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
         if (json.status === 'success') {
             keyAPI = json.key;
             baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
-            console.log(`New API key succesfully saved after ${standardTryTimes - tryTimes} attempts!`)
+            console.log(`New API key succesfully saved after ${standardTryTimes - tryTimes} retries!`)
         }
         else {
             getNewAPIKey(tryTimes - 1);
@@ -124,13 +130,13 @@ function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
     .then((response) => {return response.json()})
     .then((json) => {
         if (json.status === 'success') {
-            console.log(`Succesfully modified book after ${standardTryTimes - tryTimes}`);
+            console.log(`Succesfully modified book after ${standardTryTimes - tryTimes} retries`);
             modifyBookIdField.value = '';
             modifyBookTitleField.value = '';
             modifyBookAuthorField.value  = '';
         }
         else {
-            modifyBookFromAPI(id, title, author, tryTimes - 1);
+            modifyBookFromAPI(id, title, author, tryTimes--);
         }
     });
 }
@@ -157,7 +163,30 @@ function removeBookFromAPI(id, tryTimes = standardTryTimes) {
             getBooksFromAPI();
         }
         else {
-            removeBookFromAPI(id, tryTimes - 1);
+            return removeBookFromAPI(id, tryTimes--);
         }
     });
+}
+
+function openForm(formName) {
+    switch(formName) {
+        case 'addBookForm':
+            modifyBookForm.style.display = 'none';
+            removeBookForm.style.display = 'none';
+            addBookForm.style.display = 'block';
+            break;
+        case 'modifyBookForm':
+            modifyBookForm.style.display = 'block';
+            removeBookForm.style.display = 'none';
+            addBookForm.style.display = 'none';
+            break;
+        case 'removeBookForm':
+            modifyBookForm.style.display = 'none';
+            removeBookForm.style.display = 'block';
+            addBookForm.style.display = 'none';
+            break;
+        default:
+            console.log('Failed to open form...');
+            break;
+    }
 }

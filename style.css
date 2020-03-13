@@ -8,3 +8,7 @@ form input
 {
     background-color: rgb(196, 212, 221);
 }
+
+.book-operation-form {
+    display: none;
+}

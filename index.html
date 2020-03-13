@@ -7,15 +7,20 @@
         <title>Extreme Store of the Books</title>
     </head>
     <body>
-        <form>
+        <div id="choose-operation">
+            <button onclick="openForm('addBookForm')">Add Book</button>
+            <button onclick="openForm('modifyBookForm')">Modify Book</button>
+            <button onclick="openForm('removeBookForm')">Remove Book</button>
+        </div>
+        <form class='book-operation-form' id='add-book-form'>
             <h3>Add Book</h3>
             <label for="add-book-title">Book name</label><br>
             <input type="text" id="add-book-title" name="book-title" required><br>
             <label for="add-book-author-name">Author name</label><br>
             <input type="text" id="add-book-author-name" name="book-author-name" required><br>
-            <button type="button" onclick='submitBookToAPI()'>Add book</button>
+            <button type="button" onclick="submitBookToAPI()">Submit</button>
         </form>
-        <form>
+        <form class='book-operation-form' id='modify-book-form'>
             <h3>Modify Book</h3>
             <label for="modify-book-id">Book ID</label><br>
             <input type="text" id="modify-book-id" name="book-id" required><br>
@@ -23,13 +28,13 @@
             <input type="text" id="modify-book-title" name="book-title"><br>
             <label for="modify-book-author-name">New author name</label><br>
             <input type="text" id="modify-book-author-name" name="book-author-name"><br>
-            <button type="button" onclick='onModifyBookButtonClicked()'>Modify book</button>
+            <button type="button" onclick="onModifyBookButtonClicked()">Submit</button>
         </form>
-        <form>
+        <form class='book-operation-form' id='remove-book-form'>
             <h3>Remove book</h3>
             <label for="remove-book-id">Book ID</label><br>
             <input type="text" id="remove-book-id" name="book-id" required><br>
-            <button type="button" onclick='onRemoveBookButtonClicked()'>Remove book</button>
+            <button type="button" onclick='onRemoveBookButtonClicked()'>Submit</button>
         </form>
         <button type="button" onclick="getBooksFromAPI()">Display books</button>
         <ul id='book-list'>
