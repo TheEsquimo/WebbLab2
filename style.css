@@ -1,7 +1,7 @@
 body 
 {
     background-color: black;
-    color: gray;
+    color: white;
 }
 
 form input
@@ -9,18 +9,35 @@ form input
     background-color: rgb(196, 212, 221);
 }
 
-.book-operation-form {
+header
+{
+    text-align: center;
+    background-image: url(./images/header-photo.jpeg);
+    padding: 5em;
+}
+
+footer
+{
+    background-image: url(./images/footer-photo.jpeg);
+    padding: 10em;
+}
+
+button
+{
+    margin: 0.75em;
+}
+
+.book-operation-form
+{
     display: none;
 }
 
-header, section {
+.text-align-center
+{
     text-align: center;
 }
 
-#book-list-div {
-    text-align: center;
-}
-
-#book-list-div ul {
+#book-list-div ul
+{
     list-style-type: none;
 }
