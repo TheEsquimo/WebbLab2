@@ -8,9 +8,9 @@
     </head>
     <body>
         <div id="choose-operation">
-            <button onclick="openForm('addBookForm')">Add Book</button>
-            <button onclick="openForm('modifyBookForm')">Modify Book</button>
-            <button onclick="openForm('removeBookForm')">Remove Book</button>
+            <button id='open-add-book-form-button' onclick="openForm('addBookForm')">Add Book</button>
+            <button id='open-modify-book-form-button' onclick="openForm('modifyBookForm')">Modify Book</button>
+            <button id='open-remove-book-form-button' onclick="openForm('removeBookForm')">Remove Book</button>
         </div>
         <form class='book-operation-form' id='add-book-form'>
             <h3>Add Book</h3>
@@ -18,7 +18,7 @@
             <input type="text" id="add-book-title" name="book-title" required><br>
             <label for="add-book-author-name">Author name</label><br>
             <input type="text" id="add-book-author-name" name="book-author-name" required><br>
-            <button type="button" onclick="submitBookToAPI()">Submit</button>
+            <button type="button" onclick="onAddBookButtonClicked()">Submit</button>
         </form>
         <form class='book-operation-form' id='modify-book-form'>
             <h3>Modify Book</h3>

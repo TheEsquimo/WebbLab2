@@ -11,6 +11,9 @@ let addBookForm;
 let modifyBookForm;
 let removeBookForm;
 let operationStatusParagraph;
+let openAddBookFormButton;
+let openModifyBookFormButton;
+let openRemoveBookFormButton;
 
 window.addEventListener('load', () => {
     addBookForm = document.getElementById('add-book-form');
@@ -24,28 +27,39 @@ window.addEventListener('load', () => {
     modifyBookAuthorField = document.getElementById('modify-book-author-name')
     bookList = document.getElementById('book-list');
     operationStatusParagraph = document.getElementById('operation-status');
+    openAddBookFormButton = document.getElementById('open-add-book-form-button');
+    openModifyBookFormButton = document.getElementById('open-modify-book-form-button');
+    openRemoveBookFormButton = document.getElementById('open-remove-book-form-button');
 });
 
-function submitBookToAPI(tryTimes = standardTryTimes) {
-    if (tryTimes <= 0) {
+function onAddBookButtonClicked() {
+    if (addBookTitleField.value === '' || addBookAuthorField.value === '') {
+        operationStatusParagraph.innerHTML = 'Please enter a title and author name';
+    }
+    else {
+        const bookTitle = '&title=' + addBookTitleField.value;
+        const bookAuthor = '&author=' + addBookAuthorField.value;
+        submitBookToAPI(bookTitle, bookAuthor);
+    }
+}
+
+function submitBookToAPI(bookTitle, bookAuthor, tryTimes = standardTryTimes) {
+    if (tryTimes <= 0 || bookTitle === '' || bookAuthor === '') {
         console.log('Failed to submit book to API...');
         operationStatusParagraph.innerHTML = 'Failed to submit book to API...';
         return;
     }
     const operation = '&op=insert';
-    const bookTitle = '&title=' + addBookTitleField.value;
-    const bookAuthor = '&author=' + addBookAuthorField.value;
     const endpoint = baseUrl + operation + bookTitle + bookAuthor;
     fetch(endpoint)
-    .then(response => response.json())
-    .then(json => {
+    .then((response) => response.json())
+    .then((json) => {
         if (json.status === 'success') {
             console.log(`Sucessfully added book after ${standardTryTimes - tryTimes} retries!`);
             operationStatusParagraph.innerHTML = `Sucessfully added book after ${standardTryTimes - tryTimes} retries!`;
             clearAddBookForm();
-            return true;
         } else {
-        return submitBookToAPI(tryTimes - 1);
+            return submitBookToAPI(bookTitle, bookAuthor, tryTimes - 1);
         }
     });
 }
@@ -59,7 +73,7 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
     const operation = '&op=select';
     const endpoint = baseUrl + operation;
     fetch(endpoint)
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
         if (json.status === 'success') {
             //Make fetched books into a JavaScript array of anonymous objects
@@ -79,7 +93,6 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
             }
             console.log(`Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
             operationStatusParagraph.innerHTML = `Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`;
-            
         } else {
         return getBooksFromAPI(tryTimes - 1);
         }
@@ -99,7 +112,7 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
     }
     const url = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey';
     fetch(url)
-    .then(response => {return response.json()})
+    .then((response) => {return response.json()})
     .then((json) => {
         if (json.status === 'success') {
             keyAPI = json.key;
@@ -117,11 +130,14 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
 }
 
 function onModifyBookButtonClicked() {
-    //if ()
-    const id = modifyBookIdField.value;
-    const title = modifyBookTitleField.value;
-    const author = modifyBookAuthorField.value;
-    modifyBookFromAPI(id, title, author);
+    if (isNaN(id)) {
+        operationStatusParagraph.innerHTML = 'ID must be a valid number...';
+    } else {
+        const id = modifyBookIdField.value;
+        const title = modifyBookTitleField.value;
+        const author = modifyBookAuthorField.value;
+        modifyBookFromAPI(id, title, author);
+    }
 }
 
 function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
@@ -186,16 +202,25 @@ function openForm(formName) {
             modifyBookForm.style.display = 'none';
             removeBookForm.style.display = 'none';
             addBookForm.style.display = 'block';
+            openAddBookFormButton.disabled = true;
+            openModifyBookFormButton.disabled = false;
+            openRemoveBookFormButton.disabled = false;
             break;
         case 'modifyBookForm':
             modifyBookForm.style.display = 'block';
             removeBookForm.style.display = 'none';
             addBookForm.style.display = 'none';
+            openAddBookFormButton.disabled = false;
+            openModifyBookFormButton.disabled = true;
+            openRemoveBookFormButton.disabled = false;
             break;
         case 'removeBookForm':
             modifyBookForm.style.display = 'none';
             removeBookForm.style.display = 'block';
             addBookForm.style.display = 'none';
+            openAddBookFormButton.disabled = false;
+            openModifyBookFormButton.disabled = false;
+            openRemoveBookFormButton.disabled = true;
             break;
         default:
             console.log('Failed to open form...');
