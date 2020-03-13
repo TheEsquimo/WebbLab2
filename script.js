@@ -29,6 +29,7 @@ window.addEventListener('load', () => {
 function submitBookToAPI(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to submit book to API...');
+        operationStatusParagraph.innerHTML = 'Failed to submit book to API...';
         return;
     }
     const operation = '&op=insert';
@@ -40,6 +41,7 @@ function submitBookToAPI(tryTimes = standardTryTimes) {
     .then(json => {
         if (json.status === 'success') {
             console.log(`Sucessfully added book after ${standardTryTimes - tryTimes} retries!`);
+            operationStatusParagraph.innerHTML = `Sucessfully added book after ${standardTryTimes - tryTimes} retries!`;
             clearAddBookForm();
             return true;
         } else {
@@ -53,7 +55,7 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
         console.log('Failed to get books from API...');
         return;
     }
-    console.log('Getting books from API...')
+    console.log('Getting books from API...');
     const operation = '&op=select';
     const endpoint = baseUrl + operation;
     fetch(endpoint)
@@ -76,6 +78,8 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
                 bookList.appendChild(newBook);
             }
             console.log(`Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
+            operationStatusParagraph.innerHTML = `Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`;
+            
         } else {
         return getBooksFromAPI(tryTimes - 1);
         }
@@ -90,6 +94,7 @@ function clearAddBookForm() {
 function getNewAPIKey(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to get new API key...');
+        operationStatusParagraph.innerHTML = 'Failed to get new API key...';
         return;
     }
     const url = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey';
@@ -99,7 +104,8 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
         if (json.status === 'success') {
             keyAPI = json.key;
             baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
-            console.log(`New API key succesfully saved after ${standardTryTimes - tryTimes} retries!`)
+            console.log(`New API key succesfully saved after ${standardTryTimes - tryTimes} retries!`);
+            operationStatusParagraph.innerHTML = `New API key succesfully saved after ${standardTryTimes - tryTimes} retries!`;
         }
         else {
             getNewAPIKey(tryTimes - 1);
@@ -121,6 +127,7 @@ function onModifyBookButtonClicked() {
 function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Could not modify book through API...');
+        operationStatusParagraph.innerHTML = 'Could not modify book through API...';
         return;
     }
     const operation = '&op=update';
@@ -133,6 +140,7 @@ function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
     .then((json) => {
         if (json.status === 'success') {
             console.log(`Succesfully modified book after ${standardTryTimes - tryTimes} retries`);
+            operationStatusParagraph.innerHTML = `Succesfully modified book after ${standardTryTimes - tryTimes} retries`;
             modifyBookIdField.value = '';
             modifyBookTitleField.value = '';
             modifyBookAuthorField.value  = '';
@@ -151,6 +159,7 @@ function onRemoveBookButtonClicked() {
 function removeBookFromAPI(id, tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to remove book from API...');
+        operationStatusParagraph.innerHTML = 'Failed to remove book from API...';
         return;
     }
     const operation = '&op=delete';
@@ -161,6 +170,7 @@ function removeBookFromAPI(id, tryTimes = standardTryTimes) {
     .then((json) => {
         if (json.status === 'success') {
             console.log('Successfully removed book!');
+            operationStatusParagraph.innerHTML = 'Successfully removed book!';
             removeBookIdField.value = '';
             getBooksFromAPI();
         }
