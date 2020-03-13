@@ -7,39 +7,42 @@
         <title>Extreme Store of the Books</title>
     </head>
     <body>
-        <div id="choose-operation">
+        <header id="choose-operation">
             <button id='open-add-book-form-button' onclick="openForm('addBookForm')">Add Book</button>
             <button id='open-modify-book-form-button' onclick="openForm('modifyBookForm')">Modify Book</button>
             <button id='open-remove-book-form-button' onclick="openForm('removeBookForm')">Remove Book</button>
+        </header>
+        <section>
+            <form class="book-operation-form" id='add-book-form'>
+                <h3>Add Book</h3>
+                <label for="add-book-title">Book name</label><br>
+                <input type="text" id="add-book-title" name="book-title" required><br>
+                <label for="add-book-author-name">Author name</label><br>
+                <input type="text" id="add-book-author-name" name="book-author-name" required><br>
+                <button type="button" onclick="onAddBookButtonClicked()">Submit</button>
+            </form>
+            <form class='book-operation-form' id='modify-book-form'>
+                <h3>Modify Book</h3>
+                <label for="modify-book-id">Book ID</label><br>
+                <input type="text" id="modify-book-id" name="book-id" required><br>
+                <label for="modify-book-title">New book name</label><br>
+                <input type="text" id="modify-book-title" name="book-title"><br>
+                <label for="modify-book-author-name">New author name</label><br>
+                <input type="text" id="modify-book-author-name" name="book-author-name"><br>
+                <button type="button" onclick="onModifyBookButtonClicked()">Submit</button>
+            </form>
+            <form class='book-operation-form' id='remove-book-form'>
+                <h3>Remove book</h3>
+                <label for="remove-book-id">Book ID</label><br>
+                <input type="text" id="remove-book-id" name="book-id" required><br>
+                <button type="button" onclick='onRemoveBookButtonClicked()'>Submit</button>
+            </form>
+        </section>
+        <div id='book-list-div'>
+            <button type="button" onclick="getBooksFromAPI()">Display books</button>
+            <ul id='book-list'>
+            </ul>
         </div>
-        <form class='book-operation-form' id='add-book-form'>
-            <h3>Add Book</h3>
-            <label for="add-book-title">Book name</label><br>
-            <input type="text" id="add-book-title" name="book-title" required><br>
-            <label for="add-book-author-name">Author name</label><br>
-            <input type="text" id="add-book-author-name" name="book-author-name" required><br>
-            <button type="button" onclick="onAddBookButtonClicked()">Submit</button>
-        </form>
-        <form class='book-operation-form' id='modify-book-form'>
-            <h3>Modify Book</h3>
-            <label for="modify-book-id">Book ID</label><br>
-            <input type="text" id="modify-book-id" name="book-id" required><br>
-            <label for="modify-book-title">New book name</label><br>
-            <input type="text" id="modify-book-title" name="book-title"><br>
-            <label for="modify-book-author-name">New author name</label><br>
-            <input type="text" id="modify-book-author-name" name="book-author-name"><br>
-            <button type="button" onclick="onModifyBookButtonClicked()">Submit</button>
-        </form>
-        <form class='book-operation-form' id='remove-book-form'>
-            <h3>Remove book</h3>
-            <label for="remove-book-id">Book ID</label><br>
-            <input type="text" id="remove-book-id" name="book-id" required><br>
-            <button type="button" onclick='onRemoveBookButtonClicked()'>Submit</button>
-        </form>
-        <button type="button" onclick="getBooksFromAPI()">Display books</button>
-        <ul id='book-list'>
-            
-        </ul>
         <button type="button" onclick="getNewAPIKey()">New API-key</button>
         <p id='operation-status'></p>
     </body>

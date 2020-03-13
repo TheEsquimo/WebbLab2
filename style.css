@@ -12,3 +12,15 @@ form input
 .book-operation-form {
     display: none;
 }
+
+header, section {
+    text-align: center;
+}
+
+#book-list-div {
+    text-align: center;
+}
+
+#book-list-div ul {
+    list-style-type: none;
+}
