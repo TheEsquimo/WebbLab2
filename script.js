@@ -57,7 +57,8 @@ function submitBookToAPI(bookTitle, bookAuthor, tryTimes = standardTryTimes) {
         if (json.status === 'success') {
             console.log(`Sucessfully added book after ${standardTryTimes - tryTimes} retries!`);
             operationStatusParagraph.innerHTML = `Sucessfully added book after ${standardTryTimes - tryTimes} retries!`;
-            clearAddBookForm();
+            addBookTitleField.value = '';
+            addBookAuthorField.value = '';
         } else {
             return submitBookToAPI(bookTitle, bookAuthor, tryTimes - 1);
         }
@@ -99,11 +100,6 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
     });
 }
 
-function clearAddBookForm() {
-    addBookTitleField.value = '';
-    addBookAuthorField.value = '';
-}
-
 function getNewAPIKey(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to get new API key...');
@@ -130,12 +126,12 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
 }
 
 function onModifyBookButtonClicked() {
-    if (isNaN(id)) {
-        operationStatusParagraph.innerHTML = 'ID must be a valid number...';
-    } else {
+    if (isNaN(modifyBookIdField.value) || modifyBookTitleField.value === '' || modifyBookAuthorField.value === '') {
         const id = modifyBookIdField.value;
         const title = modifyBookTitleField.value;
         const author = modifyBookAuthorField.value;
+        operationStatusParagraph.innerHTML = 'Invalid input...';
+    } else {
         modifyBookFromAPI(id, title, author);
     }
 }
@@ -168,12 +164,21 @@ function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
 }
 
 function onRemoveBookButtonClicked() {
-    const id = removeBookIdField.value;
-    removeBookFromAPI(id);
+    if (isNaN(removeBookIdField.value)) {
+        operationStatusParagraph.innerHTML = 'ID must be a valid number...';
+    } else {
+        const id = removeBookIdField.value;
+        removeBookFromAPI(id);
+    }
 }
 
 function removeBookFromAPI(id, tryTimes = standardTryTimes) {
-    if (tryTimes <= 0) {
+    if (tryTimes < 0) {
+        console.log(`Could not find book with id: ${id}`);
+        operationStatusParagraph.innerHTML = `Could not find book with id: ${id}`;
+        return;
+    }
+    if (tryTimes === 0) {
         console.log('Failed to remove book from API...');
         operationStatusParagraph.innerHTML = 'Failed to remove book from API...';
         return;
@@ -188,7 +193,9 @@ function removeBookFromAPI(id, tryTimes = standardTryTimes) {
             console.log('Successfully removed book!');
             operationStatusParagraph.innerHTML = 'Successfully removed book!';
             removeBookIdField.value = '';
-            getBooksFromAPI();
+        }
+        else if (json.message.includes('No book with that id')) {
+            return removeBookFromAPI(id, -1);
         }
         else {
             return removeBookFromAPI(id, tryTimes - 1);
