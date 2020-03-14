@@ -126,10 +126,10 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
 }
 
 function onModifyBookButtonClicked() {
-    if (isNaN(modifyBookIdField.value) || modifyBookTitleField.value === '' || modifyBookAuthorField.value === '') {
-        const id = modifyBookIdField.value;
-        const title = modifyBookTitleField.value;
-        const author = modifyBookAuthorField.value;
+    const id = modifyBookIdField.value;
+    const title = modifyBookTitleField.value;
+    const author = modifyBookAuthorField.value;
+    if (isNaN(id) || title === '' || author === '') {
         operationStatusParagraph.innerHTML = 'Invalid input...';
     } else {
         modifyBookFromAPI(id, title, author);
