@@ -33,6 +33,7 @@ button {
     margin: 0.75em;
     min-width: 100px;
     min-height: 30px;
+    cursor: pointer;
 }
 
 .book-operation-form {
@@ -45,4 +46,12 @@ button {
 
 #book-list-div ul {
     list-style-type: none;
+}
+
+#choose-operation button {
+    background-color: rgb(83, 66, 114);
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
 }
