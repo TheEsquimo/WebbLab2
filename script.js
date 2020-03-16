@@ -102,6 +102,9 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
                 const author = bookArray[i].author;
                 const id = bookArray[i].id;
                 var newBook = document.createElement('li');
+                var titleParagraph = document.createElement('p');
+                var authorParagraph = document.createElement('p');
+                var idParagraph = document.createElement('p');
                 newBook.innerHTML = `Title: ${title} Author: ${author} ID: ${id}`;     
                 bookList.appendChild(newBook);
             }
