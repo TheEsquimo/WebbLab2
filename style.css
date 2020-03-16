@@ -1,12 +1,10 @@
-body 
-{
+body {
     background-color: black;
     color: white;
     margin: 0;
 }
 
-main
-{
+main {
     min-height: calc(100vh - 240px - 320px);
     background-image: linear-gradient(rgb(14, 14, 13), rgb(9, 5, 29), rgb(14, 14, 13));
 }
@@ -16,42 +14,35 @@ label {
     margin-top: 10px;
 }
 
-form input
-{
+form input {
     background-color: rgb(196, 212, 221);
 }
 
-header
-{
+header {
     text-align: center;
     background-image: url(./images/header-photo.jpeg);
     padding: 5em;
 }
 
-footer
-{
+footer {
     background-image: url(./images/footer-photo.jpeg);
     padding: 10em;
 }
 
-button
-{
+button {
     margin: 0.75em;
     min-width: 100px;
     min-height: 30px;
 }
 
-.book-operation-form
-{
+.book-operation-form {
     display: none;
 }
 
-.text-align-center
-{
+.text-align-center {
     text-align: center;
 }
 
-#book-list-div ul
-{
+#book-list-div ul {
     list-style-type: none;
 }
