@@ -25,6 +25,18 @@ window.addEventListener('load', () => {
     modifyBookIdField = document.getElementById('modify-book-id');
     modifyBookTitleField = document.getElementById('modify-book-title')
     modifyBookAuthorField = document.getElementById('modify-book-author-name')
+    addBookTitleField.addEventListener('focus', () => { addBookTitleField.style.background = 'white'; });
+    addBookAuthorField.addEventListener('focus', () => { addBookAuthorField.style.background = 'white'; });
+    removeBookIdField.addEventListener('focus', () => { removeBookIdField.style.background = 'white'; });
+    modifyBookIdField.addEventListener('focus', () => { modifyBookIdField.style.background = 'white'; });
+    modifyBookTitleField.addEventListener('focus', () => { modifyBookTitleField.style.background = 'white'; });
+    modifyBookAuthorField.addEventListener('focus', () => { modifyBookAuthorField.style.background = 'white'; });
+    addBookTitleField.addEventListener('blur', () => { addBookTitleField.style.background = 'rgb(196, 212, 221)'; });
+    addBookAuthorField.addEventListener('blur', () => { addBookAuthorField.style.background = 'rgb(196, 212, 221)'; });
+    removeBookIdField.addEventListener('blur', () => { removeBookIdField.style.background = 'rgb(196, 212, 221)'; });
+    modifyBookIdField.addEventListener('blur', () => { modifyBookIdField.style.background = 'rgb(196, 212, 221)'; });
+    modifyBookTitleField.addEventListener('blur', () => { modifyBookTitleField.style.background = 'rgb(196, 212, 221)'; });
+    modifyBookAuthorField.addEventListener('blur', () => { modifyBookAuthorField.style.background = 'rgb(196, 212, 221)'; });
     bookList = document.getElementById('book-list');
     operationStatusParagraph = document.getElementById('operation-status');
     openAddBookFormButton = document.getElementById('open-add-book-form-button');
@@ -68,6 +80,7 @@ function submitBookToAPI(bookTitle, bookAuthor, tryTimes = standardTryTimes) {
 function getBooksFromAPI(tryTimes = standardTryTimes) {
     if (tryTimes <= 0) {
         console.log('Failed to get books from API...');
+        operationStatusParagraph.innerHTML = 'Failed to get books from API...';
         return;
     }
     console.log('Getting books from API...');
@@ -92,8 +105,8 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
                 newBook.innerHTML = `Title: ${title} Author: ${author} ID: ${id}`;     
                 bookList.appendChild(newBook);
             }
-            console.log(`Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
-            operationStatusParagraph.innerHTML = `Succesfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`;
+            console.log(`Successfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
+            operationStatusParagraph.innerHTML = `Successfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`;
         } else {
         return getBooksFromAPI(tryTimes - 1);
         }
@@ -113,8 +126,8 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
         if (json.status === 'success') {
             keyAPI = json.key;
             baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
-            console.log(`New API key succesfully saved after ${standardTryTimes - tryTimes} retries!`);
-            operationStatusParagraph.innerHTML = `New API key succesfully saved after ${standardTryTimes - tryTimes} retries!`;
+            console.log(`New API key successfully saved after ${standardTryTimes - tryTimes} retries!`);
+            operationStatusParagraph.innerHTML = `New API key successfully saved after ${standardTryTimes - tryTimes} retries!`;
         }
         else {
             getNewAPIKey(tryTimes - 1);
@@ -151,8 +164,8 @@ function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
     .then((response) => {return response.json()})
     .then((json) => {
         if (json.status === 'success') {
-            console.log(`Succesfully modified book after ${standardTryTimes - tryTimes} retries`);
-            operationStatusParagraph.innerHTML = `Succesfully modified book after ${standardTryTimes - tryTimes} retries`;
+            console.log(`Successfully modified book after ${standardTryTimes - tryTimes} retries`);
+            operationStatusParagraph.innerHTML = `Successfully modified book after ${standardTryTimes - tryTimes} retries`;
             modifyBookIdField.value = '';
             modifyBookTitleField.value = '';
             modifyBookAuthorField.value  = '';
