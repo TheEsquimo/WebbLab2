@@ -5,6 +5,12 @@ body
     margin: 0;
 }
 
+main
+{
+    min-height: calc(100vh - 240px - 320px);
+    background-image: linear-gradient(rgb(14, 14, 13), rgb(9, 5, 29), rgb(14, 14, 13));
+}
+
 form input
 {
     background-color: rgb(196, 212, 221);
@@ -26,6 +32,8 @@ footer
 button
 {
     margin: 0.75em;
+    min-width: 100px;
+    min-height: 30px;
 }
 
 .book-operation-form
