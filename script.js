@@ -103,12 +103,7 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
                 const title = bookArray[i].title;
                 const author = bookArray[i].author;
                 const id = bookArray[i].id;
-                var newBook = document.createElement('li');
-                var titleParagraph = document.createElement('p');
-                var authorParagraph = document.createElement('p');
-                var idParagraph = document.createElement('p');
-                newBook.innerHTML = `Title: ${title} Author: ${author} ID: ${id}`;     
-                bookList.appendChild(newBook);
+                addBookToList(title, author, id);
             }
             console.log(`Successfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`);
             operationStatusParagraph.innerHTML = `Successfully fetched books & updated book list after ${standardTryTimes - tryTimes} retries`;
