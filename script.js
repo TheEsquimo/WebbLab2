@@ -14,6 +14,7 @@ let operationStatusParagraph;
 let openAddBookFormButton;
 let openModifyBookFormButton;
 let openRemoveBookFormButton;
+let bookArray = [];
 
 window.addEventListener('load', () => {
     addBookForm = document.getElementById('add-book-form');
@@ -67,6 +68,7 @@ function submitBookToAPI(bookTitle, bookAuthor, tryTimes = standardTryTimes) {
     .then((response) => response.json())
     .then((json) => {
         if (json.status === 'success') {
+            addBookToList(bookTitle.substring(7), bookAuthor.substring(8), json.id);
             console.log(`Sucessfully added book after ${standardTryTimes - tryTimes} retries!`);
             operationStatusParagraph.innerHTML = `Sucessfully added book after ${standardTryTimes - tryTimes} retries!`;
             addBookTitleField.value = '';
@@ -91,7 +93,7 @@ function getBooksFromAPI(tryTimes = standardTryTimes) {
     .then((json) => {
         if (json.status === 'success') {
             //Make fetched books into a JavaScript array of anonymous objects
-            let bookArray = [];
+            bookArray = [];
             json.data.forEach(element => {
                 bookArray.push({title: element.title, author: element.author, id: element.id});
             });
@@ -129,8 +131,8 @@ function getNewAPIKey(tryTimes = standardTryTimes) {
         if (json.status === 'success') {
             keyAPI = json.key;
             baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + keyAPI;
-            console.log(`New API key successfully saved after ${standardTryTimes - tryTimes} retries!`);
-            operationStatusParagraph.innerHTML = `New API key successfully saved after ${standardTryTimes - tryTimes} retries!`;
+            console.log(`New API key "${keyAPI}" successfully saved after ${standardTryTimes - tryTimes} retries!`);
+            operationStatusParagraph.innerHTML = `New API key "${keyAPI}" successfully saved after ${standardTryTimes - tryTimes} retries!`;
         }
         else {
             getNewAPIKey(tryTimes - 1);
@@ -167,6 +169,8 @@ function modifyBookFromAPI(id, title, author, tryTimes = standardTryTimes) {
     .then((response) => {return response.json()})
     .then((json) => {
         if (json.status === 'success') {
+            removeBookFromList(id);
+            addBookToList(title, author, id);
             console.log(`Successfully modified book after ${standardTryTimes - tryTimes} retries`);
             operationStatusParagraph.innerHTML = `Successfully modified book after ${standardTryTimes - tryTimes} retries`;
             modifyBookIdField.value = '';
@@ -206,6 +210,7 @@ function removeBookFromAPI(id, tryTimes = standardTryTimes) {
     .then((response) => {return response.json()})
     .then((json) => {
         if (json.status === 'success') {
+            removeBookFromList(id);
             console.log('Successfully removed book!');
             operationStatusParagraph.innerHTML = 'Successfully removed book!';
             removeBookIdField.value = '';
@@ -248,5 +253,24 @@ function openForm(formName) {
         default:
             console.log('Failed to open form...');
             break;
+    }
+}
+
+function addBookToList(title, author, id) {
+    var newBook = document.createElement('li');
+    newBook.innerHTML = `Title: ${title} Author: ${author} ID: ${id}`;     
+    bookList.appendChild(newBook);
+}
+
+function removeBookFromList(id) {
+    if (typeof id === 'string') {
+        const books = bookList.getElementsByTagName('li');
+        for (let i=0; i<books.length; i++) {
+            const bookText = books.item(i).innerHTML;
+            if (bookText.includes(id)) { 
+                books[i].parentNode.removeChild(books[i]);
+                return;
+             }
+        };
     }
 }
