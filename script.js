@@ -252,8 +252,15 @@ function openForm(formName) {
 }
 
 function addBookToList(title, author, id) {
-    var newBook = document.createElement('li');
-    newBook.innerHTML = `Title: ${title} Author: ${author} ID: ${id}`;     
+    const newBook = document.createElement('li');
+    const paragraph = document.createElement('p')
+    const lineBreak = document.createElement('br');
+    paragraph.innerHTML = 'Title:'.bold() + ` ${title}`;
+    paragraph.appendChild(lineBreak);
+    paragraph.innerHTML += 'Author:'.bold() + ` ${author}`
+    paragraph.appendChild(lineBreak);
+    paragraph.innerHTML += 'ID:'.bold() + ` ${id}`;
+    newBook.appendChild(paragraph);
     bookList.appendChild(newBook);
 }
 
