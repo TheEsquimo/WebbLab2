@@ -26,18 +26,6 @@ window.addEventListener('load', () => {
     modifyBookIdField = document.getElementById('modify-book-id');
     modifyBookTitleField = document.getElementById('modify-book-title')
     modifyBookAuthorField = document.getElementById('modify-book-author-name')
-    addBookTitleField.addEventListener('focus', () => { addBookTitleField.style.background = 'white'; });
-    addBookAuthorField.addEventListener('focus', () => { addBookAuthorField.style.background = 'white'; });
-    removeBookIdField.addEventListener('focus', () => { removeBookIdField.style.background = 'white'; });
-    modifyBookIdField.addEventListener('focus', () => { modifyBookIdField.style.background = 'white'; });
-    modifyBookTitleField.addEventListener('focus', () => { modifyBookTitleField.style.background = 'white'; });
-    modifyBookAuthorField.addEventListener('focus', () => { modifyBookAuthorField.style.background = 'white'; });
-    addBookTitleField.addEventListener('blur', () => { addBookTitleField.style.background = 'rgb(196, 212, 221)'; });
-    addBookAuthorField.addEventListener('blur', () => { addBookAuthorField.style.background = 'rgb(196, 212, 221)'; });
-    removeBookIdField.addEventListener('blur', () => { removeBookIdField.style.background = 'rgb(196, 212, 221)'; });
-    modifyBookIdField.addEventListener('blur', () => { modifyBookIdField.style.background = 'rgb(196, 212, 221)'; });
-    modifyBookTitleField.addEventListener('blur', () => { modifyBookTitleField.style.background = 'rgb(196, 212, 221)'; });
-    modifyBookAuthorField.addEventListener('blur', () => { modifyBookAuthorField.style.background = 'rgb(196, 212, 221)'; });
     bookList = document.getElementById('book-list');
     operationStatusParagraph = document.getElementById('operation-status');
     openAddBookFormButton = document.getElementById('open-add-book-form-button');

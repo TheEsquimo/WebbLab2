@@ -44,6 +44,14 @@ button {
     text-align: center;
 }
 
+input:focus {
+    background: white;
+}
+
+input {
+    background: rgb(196, 212, 221);
+}
+
 #book-list-div ul {
     list-style-type: none;
 }
